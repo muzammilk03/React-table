@@ -38,10 +38,13 @@ const App = () => {
   });
 
   return (
-    <div>
-      <CSVReader onFileLoaded={handleFileUpload} />
-      {jsonData.length > 0 && <MaterialReactTable table={table} />}
-    </div>
+    <>
+      {jsonData.length > 0 ? (
+        <MaterialReactTable table={table} />
+      ) : (
+        <CSVReader onFileLoaded={handleFileUpload} />
+      )}
+    </>
   );
 };
 
