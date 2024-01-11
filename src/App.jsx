@@ -1,25 +1,24 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useMemo } from "react";
-import CSVReader from "react-csv-reader";
-import csvtojson from "csvtojson";
+/* eslint-disable react/no-unescaped-entities */
+import { useState, useMemo } from "react";
+import Papa from "papaparse";
 
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
+import FileInput from "./components/FIleInput";
+
 
 const App = () => {
   const [jsonData, setJsonData] = useState([]);
 
-  const handleFileUpload = (data, fileInfo) => {
-    csvtojson()
-      .fromString(data.join("\n"))
-      .then((jsonArray) => {
-        setJsonData(jsonArray);
-      })
-      .catch((error) => {
-        console.error("Error converting CSV to JSON:", error);
-      });
+  const handleFileUpload = (data) => {
+    Papa.parse(data, {
+      complete: (result) => {
+        setJsonData(result.data.slice(1)); // Skip header row
+      },
+      header: true,
+    });
   };
 
   const columns = useMemo(() => {
@@ -37,14 +36,23 @@ const App = () => {
     data: useMemo(() => jsonData, [jsonData]),
   });
 
+  const email = "heyshabink@gmail.com";
   return (
-    <>
+    <div className="w-full h-ful overflow-hidden">
       {jsonData.length > 0 ? (
         <MaterialReactTable table={table} />
       ) : (
-        <CSVReader onFileLoaded={handleFileUpload} />
+        <FileInput handleFileUpload={handleFileUpload} />
       )}
-    </>
+
+      <p className="text-black text-xs">
+        "Need assistance or have questions? Connect with us at{" "}
+        <a href={`mailto:${email}`} className="underline text-blue-500">
+          {email}
+        </a>
+        ,and we'll get back to you promptly!"
+      </p>
+    </div>
   );
 };
 
