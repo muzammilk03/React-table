@@ -8,38 +8,37 @@ import {
 } from "material-react-table";
 import FileInput from "./components/FIleInput";
 
-
 const App = () => {
-  const [jsonData, setJsonData] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   const handleFileUpload = (data) => {
     Papa.parse(data, {
       complete: (result) => {
-        setJsonData(result.data.slice(1)); // Skip header row
+        setTableData(result.data.slice(1)); // Skip header row
       },
       header: true,
     });
   };
 
   const columns = useMemo(() => {
-    if (jsonData.length > 0) {
-      return Object.keys(jsonData[0]).map((key) => ({
+    if (tableData.length > 0) {
+      return Object.keys(tableData[0]).map((key) => ({
         accessorKey: key,
         header: key,
       }));
     }
     return [];
-  }, [jsonData]);
+  }, [tableData]);
 
   const table = useMaterialReactTable({
     columns,
-    data: useMemo(() => jsonData, [jsonData]),
+    data: useMemo(() => tableData, [tableData]),
   });
 
-  const email = "heyshabink@gmail.com";
+  let email = "heyshabink@gmail.com";
   return (
     <div className="w-full h-ful overflow-hidden">
-      {jsonData.length > 0 ? (
+      {tableData.length > 0 ? (
         <MaterialReactTable table={table} />
       ) : (
         <FileInput handleFileUpload={handleFileUpload} />
