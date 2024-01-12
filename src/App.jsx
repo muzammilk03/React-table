@@ -1,19 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-import { useState, useMemo } from "react";
 import Papa from "papaparse";
-import autoTable from "jspdf-autotable";
 import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+import { useState, useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import {
   MaterialReactTable,
-  createMRTColumnHelper,
   useMaterialReactTable,
 } from "material-react-table";
 import FileInput from "./components/FIleInput";
-
-const columnHelper = createMRTColumnHelper();
 
 const App = () => {
   const [tableData, setTableData] = useState([]);
@@ -95,7 +92,7 @@ const App = () => {
       body: tableData,
     });
 
-    doc.save("mrt-pdf-example.pdf");
+    doc.save("shabin-pasc.pdf");
   };
 
   let email = "heyshabink@gmail.com";
