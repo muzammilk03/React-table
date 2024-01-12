@@ -102,9 +102,6 @@ const App = () => {
     <div className="w-full h-ful overflow-hidden">
       {tableData.length > 0 ? (
         <>
-          <button onClick={exportToPDF} className="button_app">
-            Export to PDF
-          </button>
           <MaterialReactTable table={table} />
         </>
       ) : (
