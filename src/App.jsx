@@ -41,9 +41,9 @@ const App = () => {
     columns,
     data: useMemo(() => tableData, [tableData]),
     enableRowSelection: true,
-    columnFilterDisplayMode: "popover",
-    paginationDisplayMode: "pages",
-    positionToolbarAlertBanner: "bottom",
+    // columnFilterDisplayMode: "popover",
+    // paginationDisplayMode: "pages",
+    // positionToolbarAlertBanner: "bottom",
     renderTopToolbarCustomActions: ({ table }) => (
       <Box
         sx={{
@@ -97,7 +97,9 @@ const App = () => {
 
     doc.save("mrt-pdf-example.pdf");
   };
+
   let email = "heyshabink@gmail.com";
+
   return (
     <div className="w-full h-ful overflow-hidden">
       {tableData.length > 0 ? (
