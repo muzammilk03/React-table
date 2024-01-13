@@ -1,8 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   MaterialReactTable,
   useMaterialReactTable,
+  type MRT_Row,
 } from "material-react-table";
 import Papa from "papaparse";
 import { jsPDF } from "jspdf";
@@ -14,19 +14,29 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import "./App.css";
 import FileInput from "./components/FIleInput";
 
-const App = () => {
-  const [tableData, setTableData] = useState([]);
+interface Column {
+  accessorKey: string;
+  header: string;
+}
 
-  const handleFileUpload = (data) => {
+type Data = Record<string, any>;
+
+const App: React.FC = () => {
+  const [tableData, setTableData] = useState<Data[]>([]);
+
+  const handleFileUpload = (data: File) => {
     Papa.parse(data, {
       complete: (result) => {
-        setTableData(result.data.slice(1)); // Skip header row
+        if (result && result.data) {
+          const parsedData: any[] = result.data;
+          setTableData(parsedData.slice(1)); // Skip header row
+        }
       },
       header: true,
     });
   };
 
-  const columns = useMemo(() => {
+  const columns = useMemo<Column[]>(() => {
     if (tableData.length > 0) {
       return Object.keys(tableData[0]).map((key) => ({
         accessorKey: key,
@@ -40,9 +50,6 @@ const App = () => {
     columns,
     data: useMemo(() => tableData, [tableData]),
     enableRowSelection: true,
-    // columnFilterDisplayMode: "popover",
-    // paginationDisplayMode: "pages",
-    // positionToolbarAlertBanner: "bottom",
     renderTopToolbarCustomActions: ({ table }) => (
       <Box
         sx={{
@@ -54,7 +61,6 @@ const App = () => {
       >
         <Button
           disabled={table.getPrePaginationRowModel().rows.length === 0}
-          //export all rows, including from the next page, (still respects filtering and sorting)
           onClick={() =>
             handleExportRows(table.getPrePaginationRowModel().rows)
           }
@@ -64,7 +70,6 @@ const App = () => {
         </Button>
         <Button
           disabled={table.getRowModel().rows.length === 0}
-          //export all rows as seen on the screen (respects pagination, sorting, filtering, etc.)
           onClick={() => handleExportRows(table.getRowModel().rows)}
           startIcon={<FileDownloadIcon />}
         >
@@ -74,7 +79,6 @@ const App = () => {
           disabled={
             !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
           }
-          //only export selected rows
           onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
           startIcon={<FileDownloadIcon />}
         >
@@ -84,14 +88,16 @@ const App = () => {
     ),
   });
 
-  const handleExportRows = (rows) => {
+  const handleExportRows = (rows: MRT_Row<Data>[]) => {
     const doc = new jsPDF();
     const tableData = rows.map((row) => Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
-    // doc.text("Pasc arts", 20, 20);
+
+    //doc.text("Pasc arts", 20, 20); // Add title
+
     const autoTableConfig = {
       margin: { top: 30 },
-      theme: "grid",
+      theme: "grid" as const,
     };
 
     autoTable(doc, {
@@ -103,7 +109,7 @@ const App = () => {
     doc.save("shabink-pasc.pdf");
   };
 
-  let email = "heyshabink@gmail.com";
+  const email = "heyshabink@gmail.com";
 
   return (
     <div className="app">
