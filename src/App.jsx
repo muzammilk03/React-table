@@ -88,10 +88,16 @@ const App = () => {
     const doc = new jsPDF();
     const tableData = rows.map((row) => Object.values(row.original));
     const tableHeaders = columns.map((c) => c.header);
+   // doc.text("Pasc arts", 20, 20);
+    const autoTableConfig = {
+      margin: { top: 30 },
+      theme: "grid",
+    };
 
     autoTable(doc, {
       head: [tableHeaders],
       body: tableData,
+      ...autoTableConfig,
     });
 
     doc.save("shabink-pasc.pdf");
