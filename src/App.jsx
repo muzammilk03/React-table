@@ -1,15 +1,17 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
+
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 import Papa from "papaparse";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useState, useMemo } from "react";
 import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from "material-react-table";
+
+import "./App.css";
 import FileInput from "./components/FIleInput";
 
 const App = () => {
@@ -92,13 +94,13 @@ const App = () => {
       body: tableData,
     });
 
-    doc.save("shabin-pasc.pdf");
+    doc.save("shabink-pasc.pdf");
   };
 
   let email = "heyshabink@gmail.com";
 
   return (
-    <div className="w-full h-ful overflow-hidden">
+    <div className="app">
       {tableData.length > 0 ? (
         <>
           <MaterialReactTable table={table} />
@@ -107,9 +109,9 @@ const App = () => {
         <FileInput handleFileUpload={handleFileUpload} />
       )}
 
-      <p className="text-black text-xs">
-        "Need assistance or have questions? Connect with us at{" "}
-        <a href={`mailto:${email}`} className="underline text-blue-500">
+      <p className="connect">
+        "Need assistance or have questions? Connect with me at{" "}
+        <a href={`mailto:${email}`} className="email">
           {email}
         </a>
         ,and we'll get back to you promptly!"

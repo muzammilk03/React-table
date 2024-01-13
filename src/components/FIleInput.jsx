@@ -1,21 +1,24 @@
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line react/prop-types
+import "./Fileinput.css";
+
 const FileInput = ({ handleFileUpload }) => {
   return (
-    <div className="max-w-md mx-auto rounded-2xl  md:max-w-xl">
-      <div className="md:flex">
-        <div className="w-full p-3">
-          <div className="relative h-48 rounded-lg border-2 border-dotted border-blue-700 bg-gray-100 flex justify-center items-center">
-            <div className="absolute">
-              <div className="flex flex-col items-center">
-                <i className="fa fa-folder-open fa-4x text-blue-700"></i>
-                <span className="block text-gray-400 font-normal">
-                  Attach you files here
+    <div className="Fileinput">
+      <div className="app_display">
+        <div style={{ width: "100%", padding: "0.75rem" }}>
+          <div className="main_container">
+            <div style={{ position: "absolute" }}>
+              <div className="text_container">
+                <i className="fa fa-folder-open fa-4x"></i>
+                <span className="text_span_container">
+                  Attach you csv files here
                 </span>
               </div>
             </div>
             <input
               type="file"
-              className="h-full w-full opacity-0"
+              className="file_input"
               onChange={(e) => handleFileUpload(e.target.files[0])}
             />
           </div>
