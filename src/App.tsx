@@ -105,6 +105,7 @@ const App: React.FC = () => {
       body: tableData,
       ...autoTableConfig,
     });
+    
     let file = prompt("Please enter File name");
     if (file) {
       doc.save(`${file}-shabink.pdf`);
