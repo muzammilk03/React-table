@@ -105,8 +105,12 @@ const App: React.FC = () => {
       body: tableData,
       ...autoTableConfig,
     });
-
-    doc.save("shabink-pasc.pdf");
+    let file = prompt("Please enter File name");
+    if (file) {
+      doc.save(`${file}-shabink.pdf`);
+    } else {
+      return;
+    }
   };
 
   const email = "heyshabink@gmail.com";
